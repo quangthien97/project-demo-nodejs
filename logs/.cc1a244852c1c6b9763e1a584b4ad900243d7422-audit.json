@@ -1,0 +1,14 @@
+{
+    "keep": {
+        "days": false,
+        "amount": 25
+    },
+    "auditLog": "C:\\Users\\TechCare\\Desktop\\New folder\\node-skeleton-sequelize\\logs\\.cc1a244852c1c6b9763e1a584b4ad900243d7422-audit.json",
+    "files": [
+        {
+            "date": 1616552307867,
+            "name": "C:\\Users\\TechCare\\Desktop\\New folder\\node-skeleton-sequelize\\logs\\sample-log..24-03-2021",
+            "hash": "c48ce624cbd37c736cd0b857ecf0230e"
+        }
+    ]
+}

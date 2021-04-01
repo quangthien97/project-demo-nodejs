@@ -1,0 +1,14 @@
+{
+    "keep": {
+        "days": false,
+        "amount": 25
+    },
+    "auditLog": "/Users/kimthi/project/madison-tech/cms-skeleton/node-skeleton-sequelize/logs/.610c2c3ecc7ea0e07858643f1b46d717dc4f203c-audit.json",
+    "files": [
+        {
+            "date": 1615778199945,
+            "name": "/Users/kimthi/project/madison-tech/cms-skeleton/node-skeleton-sequelize/logs/sample-log..15-03-2021",
+            "hash": "d028a0c8f8468fa6ad74fa10bd0a1758"
+        }
+    ]
+}

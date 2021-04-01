@@ -1,0 +1,14 @@
+{
+    "keep": {
+        "days": false,
+        "amount": 25
+    },
+    "auditLog": "/Users/kimthi/project/madison-tech/cms-skeleton/node-skeleton-sequelize/logs/.00aa4a15b05709dfa98114dde5a10ec25544d8f6-audit.json",
+    "files": [
+        {
+            "date": 1615778030540,
+            "name": "/Users/kimthi/project/madison-tech/cms-skeleton/node-skeleton-sequelize/logs/tiger-cny..15-03-2021",
+            "hash": "140abe9f468bfdcb39e59720a6d001e7"
+        }
+    ]
+}

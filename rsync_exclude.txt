@@ -1,0 +1,11 @@
+node_modules
+env.json
+logs
+.vscode
+ecosystem.config.cjs
+.git
+.log
+env.js
+nodemon.json
+device.json
+.idea

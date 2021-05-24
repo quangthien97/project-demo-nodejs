@@ -1,58 +1,44 @@
-import HelperPassword from '../../helpers/password.helper';
-import HelperResponse from '../../helpers/response.helpers';
-import HelperPagination from '../../helpers/pagination.helper';
-import { constants } from '../../core/constants';
+import HelperResponse from "../../helpers/response.helpers";
+import HelperPagination from "../../helpers/pagination.helper";
+import HelperUpload from "../../helpers/upload.helper";
+import { constants } from "../../core/constants";
 const { userStatus, userRoles } = constants;
 
-class UserController {
+class BookController {
   static async getAll(req, res) {
     try {
       let { limit, page } = req.query;
       const option = {
-        order: [
-          ['createdAt', 'DESC']
-        ]
+        order: [["createdAt", "DESC"]],
       };
-      const optionQuery = HelperPagination.optionPagination(option, {limit, page});
-      console.log(optionQuery);
-      const usersData = await global.db.Users.findAndCountAll(optionQuery);
-      return HelperResponse.success(res, '', { usersData });
-    } catch(error) {
-      return HelperResponse.errorResponse(res, error.message);
-    }
-  }
-
-  static async getDetail(req, res) {
-    try {
-      const { id } = req.params;
-      const userDetail = await global.db.Users.findOne({
-        where: { id }
+      const optionQuery = HelperPagination.optionPagination(option, {
+        limit,
+        page,
       });
-      return HelperResponse.success(res, '', { userDetail });
-    } catch(error) {
+      console.log(optionQuery);
+      const books = await global.db.Books.findAndCountAll(optionQuery);
+      return HelperResponse.success(res, "", { books });
+    } catch (error) {
       return HelperResponse.errorResponse(res, error.message);
     }
   }
 
   static async create(req, res) {
     try {
-      const { body } = req;
-      const userData = {
-        userName: body.userName,
-        password: await HelperPassword.hash(body.password),
-        firstName: body.firstName,
-        lastName: body.lastName,
+      let { title, description, author, owner, cover, category } = req.body;
+      const coverUpload = HelperUpload.uploadImage(cover);
+      const bookCreate = {
+        title: title,
+        description: description,
+        author: author || owner,
+        owner: owner,
+        cover: coverUpload,
+        category: category,
       };
-      if(body.role) {
-        userData.role = body.role;
-      }
-      const checkUniqueUser = await global.db.Users.findOne({ where: { userName: userData.userName } });
-      if(checkUniqueUser) {
-        return HelperResponse.errorResponse(res, 'userName is Unique');
-      }
-      const user = await global.db.Users.create(userData);
-      return HelperResponse.success(res, '', { user });
-    } catch(error) {
+
+      const book = await global.db.Books.create(bookCreate);
+      return HelperResponse.success(res, "", { book });
+    } catch (error) {
       return HelperResponse.errorResponse(res, error.message);
     }
   }
@@ -88,57 +74,5 @@ class UserController {
       return HelperResponse.errorResponse(res, error.message);
     }
   }
-
-  static async active(req, res) {
-    try {
-      const { id } = req.params;
-      const user = await UserController.updateStatus(id, userStatus.active);
-      return HelperResponse.success(res, '', user);
-    } catch(error) {
-      return HelperResponse.errorResponse(res, error.message);
-    }
-  }
-
-  static async inactive(req, res) {
-    try {
-      const { id } = req.params;
-      const user = await UserController.updateStatus(id, userStatus.inactive);
-      return HelperResponse.success(res, '', { user });
-    } catch(error) {
-      return HelperResponse.errorResponse(res, error.message);
-    }
-  }
-
-  static async delete(req, res) {
-    try {
-      const { id } = req.params;
-      if(req.userData.id === id) {
-        return HelperResponse.errorResponse(res, 'Can not delete your self');
-      }
-      const userDetail = await global.db.Users.findOne({
-        where: { id }
-      });
-      if(userDetail.role === userRoles.admin) {
-        return HelperResponse.errorResponse(res, 'Can not delete Super Admin Role');
-      }
-      const user = await global.db.Users.update(
-        { status: userStatus.deleted, deleteAt: new Date() }, { where: { id } }
-      );
-      return HelperResponse.success(res, '', { user });
-    } catch(error) {
-      return HelperResponse.errorResponse(res, error.message);
-    }
-  }
-
-  static async updateStatus(id, status) {
-    return global.db.Users.update(
-      {
-        status
-      }, {
-        where: { id }
-      }
-    );
-  }
 }
-
-export default UserController;
+export default BookController;

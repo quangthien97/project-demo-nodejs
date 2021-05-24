@@ -8,19 +8,19 @@ module.exports = {
       {
         id: uuid(),
         name: 'Test 1',
-        email: 'tu.hoang+10@madison-technology.com',
+        email: 'user1@gmail.com',
         password: '123456'
       },
       {
         id: uuid(),
         name: 'Test 2',
-        email: 'tu.hoang+11@madison-technology.com',
+        email: 'user2@gmail.com',
         password: '123456'
       },
       {
         id: uuid(),
         name: 'Test 3',
-        email: 'tu.hoang+12@madison-technology.com',
+        email: 'user3@gmail.com',
         password: '123456'
       }
     ])
@@ -37,7 +37,7 @@ module.exports = {
 
     await queryInterface.bulkDelete('Users', {
       email: {
-        [Op.in]: ['tu.hoang+10@madison-technology.com', 'tu.hoang+11@madison-technology.com', 'tu.hoang+12@madison-technology.com']
+        [Op.in]: ['user1@gmail.com', 'user2@gmail.com', 'user3@gmail.com']
       }
     })
   }

@@ -5,7 +5,8 @@ const {
 const Sequelize = require('sequelize');
 
 import { constants } from '../core/constants';
-const { userStatus, adminRoles } = constants;
+import Book from './book';
+const { userStatus, userRoles } = constants;
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
@@ -16,6 +17,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      User.hasMany(Book, { as: "author" });
+      User.hasMany(Book, { as: "owner" });
     }
   };
   User.init({
@@ -23,26 +26,34 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       primaryKey: true,
       type: DataTypes.UUID,
-      defaultValue: Sequelize.UUIDV4
+      defaultValue: DataTypes.UUIDV4,
     },
-    name: DataTypes.STRING,
-    email: {
+    userName: {
       type: DataTypes.STRING,
-      unique: true
+      unique: true,
     },
-    password: DataTypes.STRING,
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    firstName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    lastName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     status: {
       type: DataTypes.ENUM(...Object.values(userStatus)),
-      defaultValue: userStatus.init
+      defaultValue: userStatus.active,
+      allowNull: false
     },
-    deletedAt: DataTypes.DATE,
-    lastLoginAt: DataTypes.DATE,
-    role:{
-      type : DataTypes.ENUM({
-        values: [adminRoles.admin, adminRoles.staff, adminRoles.superAdmin]
-      }),
-      defaultValue: adminRoles.staff
-    }
+    role: {
+      type: DataTypes.ENUM(...Object.values(userRoles)),
+      defaultValue: userRoles.user,
+      allowNull: false
+    },
   }, {
     sequelize,
     modelName: 'Users',

@@ -2,7 +2,7 @@ import { Op } from 'sequelize';
 import HelperResponse from '../helpers/response.helpers';
 import HelperToken from '../helpers/token.helpers';
 import constants from '../core/constants';
-const { userStatus, adminRoles } = constants.constants;
+const { userStatus, userRoles } = constants.constants;
 
 class ApiMiddleware {
   static async checkRole(req, res, next) {
@@ -16,12 +16,13 @@ class ApiMiddleware {
         where:
         {
           id: verified.id,
-          status: userStatus.verified,
+          status: userStatus.active,
           role: {
-            [Op.or]: [adminRoles.admin, adminRoles.superAdmin]
+            [Op.or]: [userRoles.admin, userRoles.contributor]
           }
         }
       });
+      // if(userData.role === userRoles.contributor )
       if(!userData) {
         return HelperResponse.errorResponse(res, ' Account do not have permission ', null);
       }
@@ -32,8 +33,8 @@ class ApiMiddleware {
     }
   }
 
-  static async checkRoleSuperAdmin(req, res, next) {
-    if(req.userData.role !== adminRoles.superAdmin) {
+  static async checkAdmin(req, res, next) {
+    if(req.userData.role !== userRoles.admin) {
       return HelperResponse.errorResponse(res, ' Account do not have permission ', null);
     }
     return next();

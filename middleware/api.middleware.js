@@ -22,10 +22,11 @@ class ApiMiddleware {
           }
         }
       });
-      // if(userData.role === userRoles.contributor )
+
       if(!userData) {
         return HelperResponse.errorResponse(res, ' Account do not have permission ', null);
       }
+      
       req.userData = userData;
       return next();
     } catch(error) {

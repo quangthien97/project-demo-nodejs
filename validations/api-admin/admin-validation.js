@@ -1,7 +1,7 @@
 import Joi from 'joi';
 import { constants } from '../../core/constants.js';
 
-let { adminRoles } = constants;
+let { userRoles } = constants;
 
 const get = {
   query: Joi.object({
@@ -12,18 +12,15 @@ const get = {
 
 const update = {
   body: Joi.object({
-    name: Joi.string().allow(null),
     password: Joi.string().allow(null),
-    role: Joi.string().valid(...[adminRoles.staff, adminRoles.admin])
+    role: Joi.string().valid(...[userRoles.user, userRoles.contributor])
   })
 };
 
 const create = {
   body: Joi.object({
-    name: Joi.string().allow(null),
-    email: Joi.string().email().required(),
-    password: Joi.string().required(),
-    role: Joi.string().valid(...[adminRoles.staff, adminRoles.admin]).allow(null)
+    // password: Joi.string().required(),
+    // role: Joi.string().valid(...[userRoles.user, userRoles.contributor]).allow(null)
   })
 };
 

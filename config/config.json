@@ -1,8 +1,8 @@
 {
   "development": {
     "username": "root",
-    "password": "1234",
-    "database": "test",
+    "password": "root",
+    "database": "demo",
     "options" : {
       "host": "localhost",
       "dialect": "mysql"
@@ -10,8 +10,8 @@
   },
   "test": {
     "username": "root",
-    "password": "1234",
-    "database": "test",
+    "password": "root",
+    "database": "demo",
     "options" : {
       "host": "localhost",
       "dialect": "mysql"
@@ -19,8 +19,8 @@
   },
   "production": {
     "username": "root",
-    "password": "1234",
-    "database": "test",
+    "password": "root",
+    "database": "demo",
     "options" : {
       "host": "localhost",
       "dialect": "mysql"

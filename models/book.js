@@ -1,13 +1,6 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
 const Sequelize = require('sequelize');
-import Category from './category';
-import User from './user';
-
-import { constants } from '../core/constants';
-const { userStatus, userRoles } = constants;
 
 module.exports = (sequelize, DataTypes) => {
   class Book extends Model {
@@ -18,10 +11,23 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      models.Books.belongsTo(models.Categories, {
+        as: 'Category_Book',
+        foreignKey: 'category'
+      });
+      models.Books.belongsTo(models.Users, {
+        as: 'Author_Book',
+        foreignKey: 'author'
+      });
+      models.Books.belongsTo(models.Users, {
+        as: 'Owner_Book',
+        foreignKey: 'owner'
+      });
     }
-  };
-  Book.init({
-    id: {
+  }
+  Book.init(
+    {
+      id: {
         allowNull: false,
         primaryKey: true,
         type: DataTypes.UUID,
@@ -38,37 +44,28 @@ module.exports = (sequelize, DataTypes) => {
       author: {
         type: DataTypes.UUID,
         allowNull: false,
-        references: {
-          model: 'User',
-          key: 'id',
-        },
       },
       owner: {
         type: DataTypes.UUID,
-        allowNull: false,
-        references: {
-          model: 'User',
-          key: 'id',
-        },
+        allowNull: false
       },
       category: {
         type: DataTypes.UUID,
-        allowNull: false,
-        references: {
-          model: 'Category',
-          key: 'id',
-        },
+        allowNull: false
       },
       cover: {
         type: DataTypes.STRING,
         allowNull: false,
-      }
-  }, {
-    sequelize,
-    modelName: 'Books',
-    paranoid: true,
-    deletedAt: 'deletedAt'
-  });
+      },
+      deleted: DataTypes.BOOLEAN,
+    },
+    {
+      sequelize,
+      modelName: 'Books',
+      paranoid: true,
+      deletedAt: 'deletedAt',
+    }
+  );
 
   return Book;
 };

@@ -1,11 +1,8 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
 const Sequelize = require('sequelize');
 
 import { constants } from '../core/constants';
-import Book from './book';
 const { userStatus, userRoles } = constants;
 
 module.exports = (sequelize, DataTypes) => {
@@ -17,10 +14,12 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      models.Categories.hasMany(models.Books, { as: 'Category_Book' });
     }
-  };
-  Category.init({
-    id: {
+  }
+  Category.init(
+    {
+      id: {
         allowNull: false,
         primaryKey: true,
         type: DataTypes.UUID,
@@ -30,12 +29,14 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-  }, {
-    sequelize,
-    modelName: 'Categories',
-    paranoid: true,
-    deletedAt: 'deletedAt'
-  });
+    },
+    {
+      sequelize,
+      modelName: 'Categories',
+      // paranoid: true,
+      deletedAt: 'deletedAt',
+    }
+  );
 
   return Category;
 };

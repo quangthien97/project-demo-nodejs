@@ -1,12 +1,12 @@
 import express from 'express';
 import path from 'path';
 import cookieParser from 'cookie-parser';
+
 // import { isDevelop } from './helpers/env';
 import cors from 'cors';
 // project modules
 import config from './core/config/index';
 import logger from './core/logger/app-logger';
-import AppContext from './core/context/index';
 import './models/index';
 
 // Server
@@ -28,7 +28,6 @@ app.use(cors());
 (async() => {
   try {
     // initialize resource
-    global.appContext = new AppContext();
     global.logger = logger;
 
     // Import Origin base API

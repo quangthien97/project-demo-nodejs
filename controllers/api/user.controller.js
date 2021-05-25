@@ -43,9 +43,11 @@ class UserController {
         firstName: body.firstName,
         lastName: body.lastName,
       };
+      
       if(body.role) {
         userData.role = body.role;
       }
+
       const checkUniqueUser = await global.db.Users.findOne({ where: { userName: userData.userName } });
       if(checkUniqueUser) {
         return HelperResponse.errorResponse(res, 'userName is Unique');

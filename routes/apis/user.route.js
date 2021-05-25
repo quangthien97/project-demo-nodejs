@@ -8,8 +8,8 @@ const router = express.Router();
 
 router.get('/', validation(get), ApiMiddleware.checkRole, UserController.getAll);
 router.get('/:id', ApiMiddleware.checkRole, UserController.getDetail);
-router.post('/', validation(create), ApiMiddleware.checkRole, ApiMiddleware.checkRoleSuperAdmin, UserController.create);
-router.put('/:id', validation(update), ApiMiddleware.checkRole, ApiMiddleware.checkRoleSuperAdmin, UserController.edit);
+router.post('/',UserController.create);
+router.put('/:id', validation(update), ApiMiddleware.checkRole, ApiMiddleware.checkAdmin, UserController.edit);
 router.put('/active-user/:id', ApiMiddleware.checkRole, UserController.active);
 router.put('/inactive-user/:id', ApiMiddleware.checkRole, UserController.inactive);
 router.delete('/:id', ApiMiddleware.checkRole, UserController.delete);

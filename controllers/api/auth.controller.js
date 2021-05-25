@@ -5,9 +5,9 @@ import HelperPassword from '../../helpers/password.helper';
 class AuthController {
   static async logIn(req, res) {
     try {
-      const user = await global.db.Users.findOne({where: { email: req.body.email }});
+      const user = await global.db.Users.findOne({where: { userName: req.body.userName }});
       if(!user) {
-        return HelperResponse.errorResponse(res, 'Wrong Email');
+        return HelperResponse.errorResponse(res, 'Wrong User Name');
       }
       const result = await HelperPassword.compare(req.body.password, user.password);
       if(result) {

@@ -45,6 +45,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      deleted: Sequelize.BOOLEAN
     });
   },
 

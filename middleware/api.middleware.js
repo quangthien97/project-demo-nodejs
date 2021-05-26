@@ -6,7 +6,7 @@ import constants from '../core/constants';
 const { userStatus, userRoles } = constants.constants;
 
 class ApiMiddleware {
-  static async checkRole(req, res, next) {
+  static async checkLogin(req, res, next) {
     const token = req.header('Authorization');
     if (!token) {
       return HelperResponse.errorResponse(
@@ -20,10 +20,7 @@ class ApiMiddleware {
       const userData = await global.db.Users.findOne({
         where: {
           id: verified.id,
-          status: userStatus.active,
-          role: {
-            [Op.or]: [userRoles.admin, userRoles.contributor],
-          },
+          status: userStatus.active
         },
       });
 
@@ -42,6 +39,17 @@ class ApiMiddleware {
     }
   }
 
+  static async checkRole(req, res, next) {
+    if (req.userData.role === userRoles.user) {
+      return HelperResponse.errorResponse(
+        res,
+        ' Account do not have permission ',
+        null
+      );
+    }
+    return next();
+  }
+
   static async checkAdmin(req, res, next) {
     if (req.userData.role !== userRoles.admin) {
       return HelperResponse.errorResponse(
@@ -55,11 +63,11 @@ class ApiMiddleware {
 
   static uploadFile(req, res, next) {
     const upload = multer({ dest: './public/uploads/' }).single('cover');
-    upload(req, res, function(err) {
+    upload(req, res, function (err) {
       if (err instanceof multer.MulterError) {
         // A Multer error occurred when uploading.
         return multer.MulterError;
-      } else if(err) {
+      } else if (err) {
         // An unknown error occurred when uploading.
         return err;
       }

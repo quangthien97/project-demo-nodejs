@@ -1,0 +1,14 @@
+{
+    "keep": {
+        "days": false,
+        "amount": 25
+    },
+    "auditLog": "c:\\Users\\Quang Thien\\Desktop\\project\\project-demo-nodejs\\logs\\.8fb4cdbc14f1038d180a225206f987002ab56cf6-audit.json",
+    "files": [
+        {
+            "date": 1621999089799,
+            "name": "c:\\Users\\Quang Thien\\Desktop\\project\\project-demo-nodejs\\logs\\sample-log..26-05-2021",
+            "hash": "34ff693dc0b288ba16a04288d5805e6a"
+        }
+    ]
+}

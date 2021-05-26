@@ -8,12 +8,11 @@ const { userRoles } = constants;
 class BookController {
   static async getAll(req, res) {
     try {
-      let { limit, page, id, title, category, author, owner } = req.query;
+      let { limit, page } = req.query;
 
       const option = {
         where: {
-          [Op.not]: [{ deleted: true }],
-          id, title, category, author, owner
+          [Op.not]: [{ deleted: true }]
         },
         include: [
           {
@@ -68,6 +67,52 @@ class BookController {
         ],
       });
       return HelperResponse.success(res, '', { bookDetail });
+    } catch (error) {
+      return HelperResponse.errorResponse(res, error.message);
+    }
+  }
+
+  static async search(req, res) {
+    try {
+      let { limit, page } = req.query;
+      const searchQuery = {};
+
+      for(const data in req.query) {
+        if(data === 'limit' || data === 'page') {
+          continue;
+        }
+        if(req.query[data]) {
+          searchQuery[data] = req.query[data];
+        }
+      }
+      const option = {
+        where: {
+          ...searchQuery, [Op.not]: [{ deleted: true }],
+        },
+        include: [
+          {
+            model: global.db.Users,
+            as: 'Author_Book',
+          },
+          {
+            model: global.db.Users,
+            as: 'Owner_Book',
+          },
+          {
+            model: global.db.Categories,
+            as: 'Category_Book',
+          },
+        ],
+        order: [['createdAt', 'DESC']],
+      };
+      const optionQuery = HelperPagination.optionPagination(option, {
+        limit,
+        page,
+      });
+      const books = await global.db.Books.findAndCountAll({
+        ...optionQuery,
+      });
+      return HelperResponse.success(res, '', { books });
     } catch (error) {
       return HelperResponse.errorResponse(res, error.message);
     }

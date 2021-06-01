@@ -11,9 +11,6 @@ class BookController {
       let { limit, page } = req.query;
 
       const option = {
-        where: {
-          [Op.not]: [{ deleted: true }]
-        },
         include: [
           {
             model: global.db.Users,

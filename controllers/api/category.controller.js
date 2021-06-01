@@ -14,23 +14,26 @@ class CategoryController {
       });
       const categories = await global.db.Categories.findAndCountAll({
         ...optionQuery,
-        include: {
-          model: global.db.Books,
-          as: 'Category_Book',
-          include: [
-            {
-              model: global.db.Users,
-              as: 'Author_Book',
-            },
-            {
-              model: global.db.Users,
-              as: 'Owner_Book',
-            },
-          ],
-        },
+        include: [
+          {
+            model: global.db.Books,
+            as: 'Category_Book',
+            key: 'category',
+            include: [
+              {
+                model: global.db.Users,
+                as: 'Author_Book',
+              },
+              {
+                model: global.db.Users,
+                as: 'Owner_Book',
+              },
+            ],
+          }
+        ],
       });
       return HelperResponse.success(res, '', { categories });
-    } catch (error) {
+    } catch(error) {
       return HelperResponse.errorResponse(res, error.message);
     }
   }
@@ -42,7 +45,7 @@ class CategoryController {
         title: body.title,
       });
       return HelperResponse.success(res, '', { category });
-    } catch (error) {
+    } catch(error) {
       return HelperResponse.errorResponse(res, error.message);
     }
   }

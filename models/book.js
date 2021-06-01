@@ -51,7 +51,10 @@ module.exports = (sequelize, DataTypes) => {
       },
       category: {
         type: DataTypes.UUID,
-        allowNull: false
+        references: {
+          model: 'Categories', // Can be both a string representing the table name or a Sequelize model
+          key: 'id'
+        }
       },
       cover: {
         type: DataTypes.STRING,

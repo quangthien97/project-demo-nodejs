@@ -14,7 +14,6 @@ class UserController {
         ]
       };
       const optionQuery = HelperPagination.optionPagination(option, {limit, page});
-      console.log(optionQuery);
       const usersData = await global.db.Users.findAndCountAll(optionQuery);
       return HelperResponse.success(res, '', { usersData });
     } catch(error) {

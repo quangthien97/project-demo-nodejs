@@ -2,14 +2,6 @@ module.exports = {
   constants: {
     modalOnDelete: { onDelete: 'cascade' },
 
-    metaFields: {
-      description: 'Meta Description',
-      keywords: 'Meta Keywords',
-      'og:title': 'OG Image',
-      'og:image': 'OG Title',
-      'og:description': 'OG Description',
-    },
-
     userRoles: {
       admin: 'ADMIN',
       user: 'USER',

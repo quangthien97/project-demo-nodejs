@@ -20,13 +20,11 @@ router.get(
 router.get('/:id', ApiMiddleware.checkLogin, BookController.getDetail);
 router.get(
   '/search/',
-  validation(search),
   ApiMiddleware.checkLogin,
   BookController.search
 );
 router.post(
   '/',
-  validation(create),
   ApiMiddleware.uploadFile,
   ApiMiddleware.checkLogin,
   ApiMiddleware.checkRole,
